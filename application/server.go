@@ -4,6 +4,7 @@ import (
 	"files_manager/configs"
 	"github.com/kataras/iris/v12"
 	"log"
+	"strings"
 )
 
 var (
@@ -18,5 +19,8 @@ func init() {
 
 /// Start the server on port default 7777
 func Start() {
-	Server.Listen(configs.Application.HostAndPort())
+	if configs.Application.AutoTLS {
+		Server.Run(iris.AutoTLS(configs.Application.SecureAddress(), strings.Join(configs.Application.Domains, " "), strings.Join(configs.Application.Emails, " ")))
+	}
+	Server.Listen(configs.Application.DefaultAddress())
 }
