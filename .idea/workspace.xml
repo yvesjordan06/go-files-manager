@@ -19,8 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="983a35d1-fe98-4371-9a57-1f4b3d4d3743" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/api_routes.go" afterDir="false" />
+    <list default="true" id="983a35d1-fe98-4371-9a57-1f4b3d4d3743" name="Default Changelist" comment="Added react to project">
+      <change afterPath="$PROJECT_DIR$/public/file-manager/src/Infrastructure/network.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/file-manager/src/Page/Auth/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +34,7 @@
       <list>
         <option value="Go Application" />
         <option value="Go File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -51,6 +53,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
@@ -95,6 +98,10 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added react to project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added react to project" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
@@ -127,6 +134,10 @@
     </state>
     <state width="1554" height="228" key="GridCell.Tab.0.right/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1612873674828" />
     <state width="758" height="217" key="GridCell.Tab.0.right/0.27.1600.873@0.27.1600.873" timestamp="1612737336094" />
+    <state x="1995" y="171" width="800" height="556" key="Vcs.Push.Dialog.v2" timestamp="1612892599335">
+      <screen x="1600" y="0" width="1600" height="900" />
+    </state>
+    <state x="1995" y="171" width="800" height="556" key="Vcs.Push.Dialog.v2/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1612892599335" />
     <state x="559" y="364" width="471" height="205" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1612742119571">
       <screen x="0" y="27" width="1600" height="873" />
     </state>
