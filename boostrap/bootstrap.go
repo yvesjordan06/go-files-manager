@@ -12,4 +12,5 @@ import (
 func init() {
 	log.Println("Starting bootstrap services")
 	application.Server.Use(middleware.BasicMiddleware())
+	application.Server.Use(middleware.CorsMiddleware())
 }

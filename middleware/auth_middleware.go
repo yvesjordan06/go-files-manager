@@ -37,7 +37,7 @@ func AuthRequired() iris.Handler {
 
 		ctx.SetUser(dbtoken.User)
 		ctx.Values().Set("token", dbtoken)
-		ctx.Values().Set("user", dbtoken.User)
+		ctx.Values().Set("user", &(dbtoken.User))
 
 		ctx.Next()
 	}
