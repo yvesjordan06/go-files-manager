@@ -3,3 +3,116 @@
 2021-02-07 23:48:42|54.171µs|200|GET|/|::1|0 B|7 B||
 2021-02-08 00:12:57|144.551µs|200|GET|/|::1|0 B|7 B||
 2021-02-08 00:12:57|32.948µs|404|GET|/favicon.ico|::1|0 B|9 B||
+2021-02-10 13:45:07|138.063µs|200|GET|/|127.0.0.1|0 B|7 B||
+2021-02-10 13:45:07|33.847µs|404|GET|/favicon.ico|127.0.0.1|0 B|9 B||
+2021-02-10 13:45:30|392.71µs|400|POST|/auth/login|127.0.0.1|37 B|84 B|{"email":"","password":""}|
+2021-02-10 13:46:04|336.7µs|400|POST|/auth/login|127.0.0.1|43 B|84 B|{"email":"","password":"Killer"}|
+2021-02-10 13:48:15|81.823487ms|400|POST|/auth/login|127.0.0.1|43 B|84 B|{"email":"","password":"Killer"}|
+2021-02-10 13:48:35|80.011665ms|400|POST|/auth/login|127.0.0.1|41 B|84 B|{"email":"","password":"hiro"}|
+2021-02-10 13:48:46|81.825663ms|400|POST|/auth/login|127.0.0.1|45 B|84 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 14:06:04|5m6.466030067s|400|POST|/auth/login|127.0.0.1|45 B|75 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 14:11:21|1m10.796855492s|201|POST|/auth/login|127.0.0.1|45 B|88 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 15:50:46|581.197µs|401|POST|/auth/logout|127.0.0.1|45 B|135 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 15:51:41|19.405165915s|500|POST|/auth/logout|127.0.0.1|0 B|21 B|error(interface conversion: interface {} is *models.Token, not models.Token /home/dep106/Documents/Projects/go-files-manager/controllers/auth_controller.go:47)|
+2021-02-10 15:51:59|4.312740379s|500|POST|/auth/logout|127.0.0.1|0 B|21 B|error(interface conversion: interface {} is *models.Token, not models.Token /home/dep106/Documents/Projects/go-files-manager/controllers/auth_controller.go:47)|
+2021-02-10 15:53:07|46.646633337s|500|POST|/auth/logout|127.0.0.1|0 B|21 B|error(interface conversion: interface {} is *models.Token, not models.Token /home/dep106/Documents/Projects/go-files-manager/controllers/auth_controller.go:47)|
+2021-02-10 15:56:01|24.812869707s|200|POST|/auth/logout|127.0.0.1|45 B|0 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 15:56:21|746.641µs|401|POST|/auth/logout|127.0.0.1|45 B|135 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 16:45:13|35.995956505s|400|POST|/auth/register|127.0.0.1|45 B|84 B|{"email":"hiro","password":"hiro"}|
+2021-02-10 16:46:11|48.54708721s|400|POST|/auth/register|127.0.0.1|44 B|84 B|{"username":"","password":"hiro"}|
+2021-02-10 16:51:30|16.225766841s|400|POST|/auth/register|127.0.0.1|48 B|75 B|{"username":"test","password":"hiro"}|
+2021-02-10 16:51:48|7.615298105s|400|POST|/auth/register|127.0.0.1|63 B|75 B|{"username":"test","password":"hiro","name":""}|
+2021-02-10 16:53:02|2.681546353s|400|POST|/auth/register|127.0.0.1|67 B|75 B|{"username":"test","password":"hiro","name":"test"}|
+2021-02-10 16:55:29|4.118447852s|400|POST|/auth/register|127.0.0.1|63 B|84 B|{"username":"","password":"hiro","name":"test"}|
+2021-02-10 17:03:08|22.104362033s|400|POST|/auth/register|127.0.0.1|44 B|140 B|{"password":"hiro","name":"test"}|
+2021-02-10 17:05:12|15.751382082s|400|POST|/auth/register|127.0.0.1|74 B|103 B|{
+    "password":"hiro",
+    "username":"yvesjordan06"
+    "name":"test"
+}|
+2021-02-10 17:09:15|22.941149788s|400|POST|/auth/register|127.0.0.1|75 B|75 B|{"password":"hiro","username":"yvesjordan06","name":"test"}|
+2021-02-10 17:09:32|4.196859902s|400|POST|/auth/register|127.0.0.1|57 B|135 B|{"username":"yvesjordan06","name":"test"}|
+2021-02-10 17:13:29|205.534516ms|201|POST|/auth/register|127.0.0.1|82 B|199 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:14:08|237.019909ms|201|POST|/auth/register|127.0.0.1|82 B|201 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:15:22|209.162329ms|201|POST|/auth/register|127.0.0.1|82 B|201 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:15:26|124.316735ms|500|POST|/auth/register|127.0.0.1|82 B|97 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:15:48|125.858619ms|500|POST|/auth/register|127.0.0.1|82 B|97 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:15:55|632.688µs|401|POST|/auth/logout|127.0.0.1|82 B|135 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:16:09|6.565958728s|201|POST|/auth/login|127.0.0.1|82 B|446 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:16:54|19.80687131s|200|POST|/auth/logout|127.0.0.1|82 B|0 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:16:58|754.48µs|401|POST|/auth/logout|127.0.0.1|82 B|135 B|{"password":"hiro","username":"yvesjordan06","name":"Yves Jordan"}|
+2021-02-10 17:26:32|75.503µs|404|POST|/auth/login|127.0.0.1|17 B|9 B|[object FormData]|
+2021-02-10 17:26:55|209.269µs|400|POST|/api/auth/login|127.0.0.1|17 B|91 B|[object FormData]|
+2021-02-10 17:28:45|342.760944ms|201|POST|/api/auth/login|127.0.0.1|56 B|444 B|{"username":"yvesjordan06","password":"hiro"}|
+2021-02-10 17:29:04|752.698µs|400|POST|/api/upload|127.0.0.1|0 B|46 B|error(request Content-Type isn't multipart/form-data)|
+2021-02-10 17:29:18|795.195µs|400|POST|/api/upload|127.0.0.1|0 B|46 B|error(request Content-Type isn't multipart/form-data)|
+2021-02-10 17:32:05|271.397µs|401|POST|/api/upload|127.0.0.1|0 B|146 B|error(unexpected EOF)|
+2021-02-10 17:32:34|273.4µs|401|POST|/api/upload|127.0.0.1|0 B|146 B|error(unexpected EOF)|
+2021-02-10 17:32:53|222.955µs|401|POST|/api/upload|127.0.0.1|160 B|146 B|--------------------------2d19adc3c30598d6
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------2d19adc3c30598d6--
+|
+2021-02-10 17:33:50|369.544µs|401|POST|/api/upload|127.0.0.1|160 B|146 B|--------------------------62460e7d1b4a7d37
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------62460e7d1b4a7d37--
+|
+2021-02-10 17:34:55|567.932µs|401|POST|/api/upload|127.0.0.1|160 B|135 B|--------------------------54f715c79f9da8a2
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------54f715c79f9da8a2--
+|
+2021-02-10 17:35:10|512.641µs|401|POST|/api/upload|127.0.0.1|160 B|135 B|--------------------------e8af613af3e15d58
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------e8af613af3e15d58--
+|
+2021-02-10 17:35:20|773.587µs|400|POST|/api/upload|127.0.0.1|0 B|46 B|error(request Content-Type isn't multipart/form-data)|
+2021-02-10 17:36:06|581.65µs|401|POST|/api/upload|127.0.0.1|160 B|135 B|--------------------------bd9ffe5879655301
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------bd9ffe5879655301--
+|
+2021-02-10 17:37:08|468.704µs|401|POST|/api/upload|127.0.0.1|160 B|135 B|--------------------------3232a31dac74ae5b
+Content-Disposition: form-data; name="file"
+
+gopher-side_color.png
+--------------------------3232a31dac74ae5b--
+|
+2021-02-10 17:39:48|566.863µs|400|POST|/api/upload|127.0.0.1|0 B|18 B|error(http: no such file)|
+2021-02-10 17:43:12|277.472µs|400|POST|/api/upload|127.0.0.1|0 B|18 B|error(http: no such file)|
+2021-02-10 17:43:56|259.117µs|400|POST|/api/upload|127.0.0.1|0 B|36 B||
+2021-02-10 17:45:45|1m31.464067128s|400|POST|/api/upload|127.0.0.1|0 B|36 B||
+2021-02-10 17:46:04|5.516255797s|400|POST|/api/upload|127.0.0.1|0 B|36 B||
+2021-02-10 17:46:32|336.848µs|400|POST|/api/upload|127.0.0.1|0 B|36 B||
+2021-02-10 18:09:04|11.628896ms|200|POST|/api/upload|127.0.0.1|0 B|36 B||
+2021-02-10 18:11:09|238.40812ms|200|POST|/api/upload|127.0.0.1|0 B|76 B||
+2021-02-10 18:14:55|27.006959ms|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:15:51|751.62µs|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:15:54|644.572µs|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:15:58|748.846µs|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:16:50|9.927566ms|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:16:50|37.054045ms|200|GET|/static/css/main.8c8b27cf.chunk.css|127.0.0.1|file=static/css/main.8c8b27cf.chunk.css|0 B|10 B||
+2021-02-10 18:16:50|85.46863ms|200|GET|/static/js/2.9c69db80.chunk.js|127.0.0.1|file=static/js/2.9c69db80.chunk.js|0 B|43.1 KB||
+2021-02-10 18:16:50|76.2677ms|200|GET|/static/js/main.8c808cea.chunk.js|127.0.0.1|file=static/js/main.8c808cea.chunk.js|0 B|10 B||
+2021-02-10 18:16:50|33.422705ms|200|GET|/favicon.ico|127.0.0.1|file=favicon.ico|0 B|10 B||
+2021-02-10 18:16:50|35.322785ms|200|GET|/logo192.png|127.0.0.1|file=logo192.png|0 B|10 B||
+2021-02-10 18:16:51|49.424097ms|200|GET|/static/css/main.8c8b27cf.chunk.css.map|127.0.0.1|file=static/css/main.8c8b27cf.chunk.css.map|0 B|10 B||
+2021-02-10 18:16:57|37.101412ms|200|POST|/api/upload|127.0.0.1|0 B|54 B||
+2021-02-10 18:18:31|60.164332ms|400|POST|/api/upload|127.0.0.1|0 B|99 B||
+2021-02-10 18:19:07|50.311144ms|200|POST|/api/upload|127.0.0.1|0 B|51 B||
+2021-02-10 18:21:04|37.000746728s|200|POST|/api/upload|127.0.0.1|0 B|39 B||
+2021-02-10 18:21:08|365.853863ms|200|GET|/|127.0.0.1|0 B|10 B||
+2021-02-10 18:21:10|102.215753ms|200|GET|/static/css/main.8c8b27cf.chunk.css|127.0.0.1|file=static/css/main.8c8b27cf.chunk.css|0 B|10 B||
+2021-02-10 18:21:10|211.983461ms|200|GET|/static/js/main.8c808cea.chunk.js|127.0.0.1|file=static/js/main.8c808cea.chunk.js|0 B|10 B||
+2021-02-10 18:21:10|401.803134ms|200|GET|/static/js/2.9c69db80.chunk.js|127.0.0.1|file=static/js/2.9c69db80.chunk.js|0 B|43.1 KB||
+2021-02-10 18:21:12|196.951216ms|200|GET|/logo192.png|127.0.0.1|file=logo192.png|0 B|10 B||
+2021-02-10 18:21:12|196.440534ms|200|GET|/favicon.ico|127.0.0.1|file=favicon.ico|0 B|10 B||
+2021-02-10 18:21:14|22.490254ms|200|GET|/static/css/main.8c8b27cf.chunk.css.map|127.0.0.1|file=static/css/main.8c8b27cf.chunk.css.map|0 B|10 B||
+2021-02-10 18:21:29|1.58097169s|200|POST|/api/upload|127.0.0.1|0 B|40 B||

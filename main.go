@@ -2,8 +2,8 @@ package main
 
 import (
 	"files_manager/application"
-	_ "files_manager/boostrap" // Do not delete
-	_ "files_manager/routes"   // Do not delete
+	_ "files_manager/models" // Do not delete
+	_ "files_manager/routes" // Do not delete
 )
 
 func main() {

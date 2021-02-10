@@ -2,6 +2,7 @@ package application
 
 import (
 	"files_manager/configs"
+	"github.com/go-playground/validator/v10"
 	"github.com/kataras/iris/v12"
 	"log"
 	"strings"
@@ -13,8 +14,9 @@ var (
 )
 
 func init() {
-	log.Println("Server initiating")
+	log.Println("Initializing application/server")
 	Server = iris.Default()
+	Server.Validator = validator.New()
 }
 
 /// Start the server on port default 7777

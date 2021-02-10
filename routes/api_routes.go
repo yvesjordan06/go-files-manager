@@ -1,13 +1,17 @@
 package routes
 
-import "files_manager/application"
+import (
+	"files_manager/application"
+	"files_manager/controllers"
+	"github.com/kataras/iris/v12"
+)
+
+var api = application.Server.Party("api/")
+
+func goNext(c iris.Context) {
+	c.Next()
+}
 
 func init() {
-	api := application.Server.Party("api/")
-	authParty := api.Party("/auth")
-	{
-		authParty.Post("/login")
-		authParty.Post("/register")
-		authParty.Get("/user")
-	}
+	api.Post("/upload", controllers.UploadController)
 }
