@@ -2,3 +2,4 @@
 .idea/
 uploads/
 access.log
+**/workspace.xml
