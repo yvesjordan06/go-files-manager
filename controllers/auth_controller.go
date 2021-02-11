@@ -56,7 +56,7 @@ func LoginController(ctx iris.Context) {
 func RegisterController(ctx iris.Context) {
 	var data struct {
 		models.User
-		Password string `json:"password" validate:"required"`
+		Password string `json:"password,omitempty" validate:"required"`
 	}
 
 	err := ctx.ReadJSON(&data)

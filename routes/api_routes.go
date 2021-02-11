@@ -22,4 +22,14 @@ func init() {
 	api.Post("/files/upload", middleware.AuthRequired(), controllers.UploadController)
 	api.Get("/files/me", middleware.AuthRequired(), controllers.MyFilesController)
 	api.Get("/files/{uuid}", middleware.AuthRequired(), controllers.SingleFileController)
+
+	{
+		api.Post("/document", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Post("/document/share", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Get("/documents/", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Put("/documents/{id}/complete", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Put("/documents/{id}/cancel", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Delete("/documents/{id}", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Get("/documents/{id}", middleware.AuthRequired(), controllers.NewDocumentController)
+	}
 }
