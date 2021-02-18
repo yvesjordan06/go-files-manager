@@ -6,3 +6,4 @@ access.log
 **/workspace.xml
 .idea/workspace.xml
 public/file-manager/node_modules
+/node_modules
