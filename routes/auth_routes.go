@@ -1,12 +1,15 @@
 package routes
 
-import "files_manager/application"
+import (
+	"files_manager/controllers"
+)
 
 func init() {
-	authParty := application.Server.Party("/auth")
+	authParty := api.Party("/auth")
 	{
-		authParty.Post("/login")
-		authParty.Post("/register")
+		authParty.Post("/login", controllers.LoginController)
+		authParty.Post("/logout", controllers.Logout)
+		authParty.Post("/register", controllers.RegisterController)
 		authParty.Get("/user")
 	}
 }

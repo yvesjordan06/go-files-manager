@@ -2,8 +2,10 @@ package application
 
 import (
 	"files_manager/configs"
+	"github.com/go-playground/validator/v10"
 	"github.com/kataras/iris/v12"
 	"log"
+	"strings"
 )
 
 var (
@@ -12,11 +14,15 @@ var (
 )
 
 func init() {
-	log.Println("Server initiating")
+	log.Println("Initializing application/server")
 	Server = iris.Default()
+	Server.Validator = validator.New()
 }
 
 /// Start the server on port default 7777
 func Start() {
-	Server.Listen(configs.Application.HostAndPort())
+	if configs.Application.AutoTLS {
+		Server.Run(iris.AutoTLS(configs.Application.SecureAddress(), strings.Join(configs.Application.Domains, " "), strings.Join(configs.Application.Emails, " ")))
+	}
+	Server.Listen(configs.Application.DefaultAddress())
 }
