@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -18,10 +18,15 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import {mainListItems, secondaryListItems} from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import {HomeRounded, OutdoorGrill} from "@material-ui/icons";
+
+import {Route, Switch, useHistory } from 'react-router'
+import {BrowserRouter, Link as RouterLink} from "react-router-dom";
+import NewDocumentPage from "./NewDocumentPage";
 
 function Copyright() {
     return (
@@ -36,7 +41,7 @@ function Copyright() {
     );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 0;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -119,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const classes = useStyles();
+    const history = useHistory()
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -126,11 +132,17 @@ export default function Dashboard() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    async function doLogout() {
+        localStorage.removeItem("token");
+        history.replace("/")
+    }
+
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
@@ -140,19 +152,32 @@ export default function Dashboard() {
                         onClick={handleDrawerOpen}
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Dashboard
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
+                            <NotificationsIcon/>
                         </Badge>
+                    </IconButton>
+
+                    <RouterLink to={"/"} >
+                        <IconButton color="inherit">
+
+                                <HomeRounded/>
+
+                        </IconButton>
+                    </RouterLink>
+
+                    <IconButton color="inherit" onClick={doLogout}>
+                        <OutdoorGrill/>
                     </IconButton>
                 </Toolbar>
             </AppBar>
             <Drawer
+                hidden
                 variant="permanent"
                 classes={{
                     paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -161,41 +186,59 @@ export default function Dashboard() {
             >
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
+                        <ChevronLeftIcon/>
                     </IconButton>
                 </div>
-                <Divider />
+                <Divider/>
                 <List>{mainListItems}</List>
-                <Divider />
+                <Divider/>
                 <List>{secondaryListItems}</List>
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                <Chart />
-                            </Paper>
-                        </Grid>
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                <Deposits />
-                            </Paper>
-                        </Grid>
-                        {/* Recent Orders */}
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <Orders />
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                    <Box pt={4}>
-                        <Copyright />
-                    </Box>
-                </Container>
+                <div className={classes.appBarSpacer}/>
+
+                    <Container maxWidth="lg" className={classes.container}>
+
+                            <Route path={"/"} exact>
+                            <Grid container spacing={3}>
+                                {/* Chart */}
+                                <Grid item xs={12} md={8} lg={9}>
+                                    <Paper className={fixedHeightPaper}>
+                                        <Chart/>
+                                    </Paper>
+                                </Grid>
+                                {/* Recent Deposits */}
+                                <Grid item xs={12} md={4} lg={3}>
+                                    <Paper className={fixedHeightPaper}>
+                                        <Deposits/>
+                                    </Paper>
+                                </Grid>
+                                {/* Recent Orders */}
+                                <Grid item xs={12}>
+                                    <Paper className={classes.paper}>
+                                        <Orders/>
+                                    </Paper>
+                                </Grid>
+                            </Grid>
+                            <Box pt={4}>
+                                <Copyright/>
+                            </Box>
+                            </Route>
+
+                            <Route path={"/new"} exact>
+                               <NewDocumentPage />
+                            </Route>
+
+                            <Route path={"/new-user"} exact>
+                                <h1>New User</h1>
+                            </Route>
+
+
+
+
+
+                    </Container>
+
             </main>
         </div>
     );

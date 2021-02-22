@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Router, useHistory} from "react-router";
+import Swal from "sweetalert2"
+import API, {setToken} from "../../Infrastructure/network";
 
 function Copyright() {
     return (
@@ -50,11 +52,35 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
     const classes = useStyles();
     const history = useHistory();
+    const [username, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
-    function doLogin(evt){
+    async function  doLogin(evt){
         evt.preventDefault()
-        localStorage.setItem("token","MyFancyToken");
-        history.replace('/')
+        Swal.fire('Please wait').then()
+        Swal.showLoading()
+        console.log(evt)
+        try{
+            const response = await API.post("auth/login", {username, password})
+            const token = response.data.name;
+            await setToken(token)
+            localStorage.setItem("token",token);
+            localStorage.setItem("user",JSON.stringify(response.data.user));
+            history.replace('/')
+            Swal.close().then()
+        } catch (e) {
+            const data = e.response.data
+            Swal.update({
+                icon: "error",
+                titleText: data.error,
+                text: data.suggestion
+            })
+
+        }finally {
+            Swal.hideLoading()
+        }
+
+
     }
 
     return (
@@ -73,11 +99,12 @@ export default function LoginPage() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
                         autoFocus
+                        onChange={(evt) => setEmail(evt.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -89,6 +116,7 @@ export default function LoginPage() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={(evt) => setPassword(evt.target.value)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}

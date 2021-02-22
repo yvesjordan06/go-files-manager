@@ -4,7 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route} from "react-router-dom";
-
+import {setToken} from "./Infrastructure/network";
+if (localStorage.getItem("token")){
+    setToken(localStorage.getItem('token'))
+}
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>

@@ -63,7 +63,7 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
-    <ListItem button onClick={()=>{localStorage.removeItem("token"); const history = useHistory();  history.replace("/")}} >
+    <ListItem button onClick={()=>{}} >
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
