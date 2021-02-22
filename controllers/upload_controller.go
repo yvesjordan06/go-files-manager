@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 //UploadController is the controller for uploading files to the server
@@ -21,7 +22,7 @@ func UploadController(ctx iris.Context) {
 	}
 
 	if _, err := os.Stat(configs.Application.UploadDir); os.IsNotExist(err) {
-		os.Mkdir(configs.Application.UploadDir, os.ModePerm)
+		_ = os.Mkdir(configs.Application.UploadDir, os.ModePerm)
 	}
 	uid := uuid.NewV4()
 	dest := filepath.Join(configs.Application.UploadDir, uid.String())
@@ -85,13 +86,14 @@ func SingleFileController(ctx iris.Context) {
 	}
 
 	ctx.StatusCode(http.StatusOK)
-	ctx.SendFile(filepath.Join(configs.Application.UploadDir, fileUid), file.Name)
+	_ = ctx.SendFile(filepath.Join(configs.Application.UploadDir, fileUid), file.Name)
 	ctx.StopExecution()
 
 }
 
 func NewDocumentController(ctx iris.Context) {
 	document := new(models.Document)
+	documents := new(models.Documents)
 	err := ctx.ReadJSON(document)
 	user := ctx.Values().Get("user").(*models.User)
 
@@ -100,8 +102,24 @@ func NewDocumentController(ctx iris.Context) {
 		return
 	}
 
+	//Checking if the file has already been shared or assigned
+
+	r, _ := documents.Where(&models.Document{UserID: user.ID, ReceiverID: document.ReceiverID, FileID: document.FileID})
+
+	if r.RowsAffected > 0 {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "This file has already been shared", "suggestion": "Please verify the receiver or check the file"})
+		return
+	}
+
+	//Checking if the receiver is the sender
+	if user.ID == document.ReceiverID {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "You can not send a document to yourself", "suggestion": "You are trying to send this document to yourself, please choose another receiver"})
+		return
+	}
+
 	//Check if file exist and the user has rights to send
 	file := new(models.File)
+
 	_, err = file.Get(&models.File{
 		BaseUUID: base.BaseUUID{ID: &document.FileID},
 	})
@@ -111,12 +129,24 @@ func NewDocumentController(ctx iris.Context) {
 		return
 	}
 
-	documents := new(models.Documents)
+	documents = new(models.Documents)
 
-	r, _ := documents.Where(&models.Document{FileID: document.FileID, AssignedID: &user.ID})
+	r, _ = documents.Where(&models.Document{FileID: document.FileID, AssignedID: &user.ID})
 
 	if r.RowsAffected == 0 && file.UserID != user.ID {
 		ctx.StopWithJSON(http.StatusUnauthorized, iris.Map{"error": "No permission", "suggestion": "The file you are trying to share is not available for you."})
+		return
+	}
+
+	receiver := new(models.User)
+	_, err = receiver.Get(&models.User{
+		Base: base.Base{
+			ID: document.ReceiverID,
+		},
+	})
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "The receiver does not exist"})
 		return
 	}
 
@@ -124,6 +154,9 @@ func NewDocumentController(ctx iris.Context) {
 	document.User = user
 	document.Status = models.DocumentStatusPending
 	document.File = file
+	document.AssignedID = &receiver.ID
+	document.Assigned = receiver
+	document.Receiver = receiver
 
 	_, err = document.Create()
 	if err != nil {
@@ -132,5 +165,59 @@ func NewDocumentController(ctx iris.Context) {
 	}
 
 	ctx.StopWithJSON(http.StatusCreated, document)
+
+}
+
+func MyDocumentsController(ctx iris.Context) {
+
+	hideReceived, _ := ctx.URLParamBool("hide_received")
+	hideTransferred, _ := ctx.URLParamBool("hide_transferred")
+	documents := &models.Documents{}
+	var err error
+	user := ctx.Values().Get("user").(*models.User)
+
+	if !hideReceived {
+		_, err = documents.Where(&models.Document{ReceiverID: user.ID})
+	}
+
+	if !hideTransferred {
+		_, err = documents.Where(&models.Document{UserID: user.ID})
+	}
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		return
+	}
+
+	documents2 := *documents
+	r, err := documents2.Where("received_at IS ?", nil)
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		return
+	}
+	t := time.Now()
+
+	if r.RowsAffected > 0 {
+		r.Updates(&models.Document{Status: models.DocumentStatusRead, ReceivedAt: &t})
+	}
+
+	ctx.StopWithJSON(http.StatusOK, documents)
+}
+
+func DeleteDocument(ctx iris.Context) {
+	document := new(models.Document)
+	documentID, _ := ctx.Params().GetInt("id")
+	//user := ctx.Values().Get("user").(*models.User)
+
+	_, err := document.Get(&models.Document{
+		Base: base.Base{
+			ID: uint(documentID),
+		},
+	})
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "The document doesn't exist"})
+		return
+	}
 
 }

@@ -26,7 +26,7 @@ func init() {
 	{
 		api.Post("/document", middleware.AuthRequired(), controllers.NewDocumentController)
 		api.Post("/document/share", middleware.AuthRequired(), controllers.NewDocumentController)
-		api.Get("/documents/", middleware.AuthRequired(), controllers.NewDocumentController)
+		api.Get("/documents/", middleware.AuthRequired(), controllers.MyDocumentsController)
 		api.Put("/documents/{id}/complete", middleware.AuthRequired(), controllers.NewDocumentController)
 		api.Put("/documents/{id}/cancel", middleware.AuthRequired(), controllers.NewDocumentController)
 		api.Delete("/documents/{id}", middleware.AuthRequired(), controllers.NewDocumentController)
