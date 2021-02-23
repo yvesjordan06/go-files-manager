@@ -22,7 +22,7 @@ function App() {
           <LoginPage/>
       </Route>
 
-          <Switch location={'/'}>
+          <Switch>
         <GuardedRoute path={"/"}>
             <Dashboard/>
         </GuardedRoute>

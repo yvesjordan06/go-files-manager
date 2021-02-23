@@ -27,5 +27,5 @@ function unsetToken() {
   API.defaults.headers.common = {...API.defaults.headers.common, 'Authorization': undefined}
 }
 export default API
-export {setToken}
+export {setToken, baseURL}
 

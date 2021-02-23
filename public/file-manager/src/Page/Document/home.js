@@ -24,9 +24,10 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import {HomeRounded, OutdoorGrill} from "@material-ui/icons";
 
-import {Route, Switch, useHistory } from 'react-router'
-import {BrowserRouter, Link as RouterLink} from "react-router-dom";
+import {Route, useHistory, useRouteMatch} from 'react-router'
+import {Link as RouterLink} from "react-router-dom";
 import NewDocumentPage from "./NewDocumentPage";
+import DocumentDetailPage from "./DocumentDetailPage";
 
 function Copyright() {
     return (
@@ -123,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+    let match = useRouteMatch();
     const classes = useStyles();
     const history = useHistory()
     const [open, setOpen] = React.useState(true);
@@ -163,10 +165,10 @@ export default function Dashboard() {
                         </Badge>
                     </IconButton>
 
-                    <RouterLink to={"/"} >
+                    <RouterLink to={"/"}>
                         <IconButton color="inherit">
 
-                                <HomeRounded/>
+                            <HomeRounded/>
 
                         </IconButton>
                     </RouterLink>
@@ -197,47 +199,48 @@ export default function Dashboard() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
 
-                    <Container maxWidth="lg" className={classes.container}>
+                <Container maxWidth="lg" className={classes.container}>
 
-                            <Route path={"/"} exact>
-                            <Grid container spacing={3}>
-                                {/* Chart */}
-                                <Grid item xs={12} md={8} lg={9}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <Chart/>
-                                    </Paper>
-                                </Grid>
-                                {/* Recent Deposits */}
-                                <Grid item xs={12} md={4} lg={3}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <Deposits/>
-                                    </Paper>
-                                </Grid>
-                                {/* Recent Orders */}
-                                <Grid item xs={12}>
-                                    <Paper className={classes.paper}>
-                                        <Orders/>
-                                    </Paper>
-                                </Grid>
+                    <Route path={"/"} exact>
+                        <Grid container spacing={3}>
+                            {/* Chart */}
+                            <Grid item xs={12} md={8} lg={9}>
+                                <Paper className={fixedHeightPaper}>
+                                    <Chart/>
+                                </Paper>
                             </Grid>
-                            <Box pt={4}>
-                                <Copyright/>
-                            </Box>
-                            </Route>
+                            {/* Recent Deposits */}
+                            <Grid item xs={12} md={4} lg={3}>
+                                <Paper className={fixedHeightPaper}>
+                                    <Deposits/>
+                                </Paper>
+                            </Grid>
+                            {/* Recent Orders */}
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <Orders/>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                        <Box pt={4}>
+                            <Copyright/>
+                        </Box>
+                    </Route>
 
-                            <Route path={"/new"} exact>
-                               <NewDocumentPage />
-                            </Route>
+                    <Route path={"/new"} exact>
+                        <NewDocumentPage/>
+                    </Route>
 
-                            <Route path={"/new-user"} exact>
-                                <h1>New User</h1>
-                            </Route>
+                    <Route path={"/new-user"} exact>
+                        <h1>New User</h1>
+                    </Route>
+
+                    <Route path={"/documents/:id"}>
+                        <DocumentDetailPage/>
+                    </Route>
 
 
-
-
-
-                    </Container>
+                </Container>
 
             </main>
         </div>

@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"errors"
 	"files_manager/configs"
 	"files_manager/models"
 	"files_manager/models/base"
 	"github.com/kataras/iris/v12"
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/gorm"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -72,12 +74,12 @@ func SingleFileController(ctx iris.Context) {
 	file := new(models.File)
 	fileUid := ctx.Params().Get("uuid")
 	fileUuid := uuid.FromStringOrNil(fileUid)
-	user := ctx.Values().Get("user").(*models.User)
+	//user := ctx.Values().Get("user").(*models.User)
 	_, err := file.Get(&models.File{
 		BaseUUID: base.BaseUUID{
 			ID: &fileUuid,
 		},
-		UserID: user.ID,
+		//UserID: user.ID,
 	})
 
 	if err != nil {
@@ -176,13 +178,13 @@ func MyDocumentsController(ctx iris.Context) {
 	var err error
 	user := ctx.Values().Get("user").(*models.User)
 
-	if !hideReceived {
-		_, err = documents.Where(&models.Document{ReceiverID: user.ID})
+	if !hideReceived && !hideTransferred {
+		_, err = documents.Where("receiver_id = ? OR user_id = ?", user.ID, user.ID)
 	}
 
-	if !hideTransferred {
+	/*if !hideTransferred {
 		_, err = documents.Where(&models.Document{UserID: user.ID})
-	}
+	}*/
 
 	if err != nil {
 		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
@@ -207,7 +209,7 @@ func MyDocumentsController(ctx iris.Context) {
 func DeleteDocument(ctx iris.Context) {
 	document := new(models.Document)
 	documentID, _ := ctx.Params().GetInt("id")
-	//user := ctx.Values().Get("user").(*models.User)
+	user := ctx.Values().Get("user").(*models.User)
 
 	_, err := document.Get(&models.Document{
 		Base: base.Base{
@@ -219,5 +221,105 @@ func DeleteDocument(ctx iris.Context) {
 		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "The document doesn't exist"})
 		return
 	}
+
+	if document.UserID == user.ID {
+		document.UserDeleted = true
+	}
+
+	if document.ReceiverID == user.ID {
+		document.ReceiverDeleted = true
+	}
+
+	_, _ = document.Save()
+
+	ctx.StopWithStatus(http.StatusOK)
+
+}
+
+func OtherUsersController(ctx iris.Context) {
+	user := ctx.Values().Get("user").(*models.User)
+	users := new(models.Users)
+	_, err := users.Where("id <> ?", user.ID)
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error(), "suggestion": "We had problems finding other users"})
+		return
+	}
+
+	ctx.StopWithJSON(http.StatusOK, users)
+}
+
+func SingleDocumentController(ctx iris.Context) {
+	//user := ctx.Values().Get("user").(*models.User)
+	document := new(models.Document)
+	documentID, _ := ctx.Params().GetInt("id")
+	_, err := document.Get(&models.Document{Base: base.Base{ID: uint(documentID)}})
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			ctx.StopWithJSON(http.StatusNotFound, iris.Map{"error": "Document not found"})
+
+		} else {
+			ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		}
+
+		return
+	}
+
+	ctx.StopWithJSON(http.StatusOK, document)
+}
+
+func NewComment(ctx iris.Context) {
+	user := ctx.Values().Get("user").(*models.User)
+	documentID, _ := ctx.Params().GetInt("id")
+	document := new(models.Document)
+	comment := new(models.Comment)
+
+	err := ctx.ReadJSON(comment)
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "Verify your input and try again."})
+		return
+	}
+
+	_, err = document.Get(&models.Document{Base: base.Base{ID: uint(documentID)}})
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			ctx.StopWithJSON(http.StatusNotFound, iris.Map{"error": "Document not found"})
+
+		} else {
+			ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		}
+
+		return
+	}
+
+	comment.UserID = user.ID
+	comment.User = user
+	comment.DocumentID = &document.ID
+	_, err = comment.Create()
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.StopWithJSON(http.StatusOK, comment)
+
+}
+
+func GetComments(ctx iris.Context) {
+	documentID, _ := ctx.Params().GetInt("id")
+	docID := uint(documentID)
+	comments := new(models.Comments)
+
+	_, err := comments.Where(&models.Comment{DocumentID: &docID})
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.StopWithJSON(http.StatusOK, comments)
 
 }

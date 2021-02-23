@@ -46,7 +46,7 @@ func (u *Users) All() (*gorm.DB, error) {
 	return ParseTransactionWithError(query)
 }
 
-func (u Users) Where(conditions ...interface{}) (*gorm.DB, error) {
+func (u *Users) Where(conditions ...interface{}) (*gorm.DB, error) {
 	query := application.DB.Find(u, conditions...)
 	return ParseTransactionWithError(query)
 }
