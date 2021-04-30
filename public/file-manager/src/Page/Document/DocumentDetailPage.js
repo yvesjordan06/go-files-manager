@@ -16,9 +16,17 @@ import {
     TextField,
     Typography
 } from "@material-ui/core";
-import {CloseOutlined} from "@material-ui/icons";
+import {Clear, CloseOutlined, CloudDownload, Reply} from "@material-ui/icons";
 import getReadableFileSizeString from "../../Infrastructure/readableFileSize";
 import Moment from "moment";
+import Title from "./Title";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import {Link} from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
 
 function DocumentDetailPage() {
     let {id: documentID} = useParams()
@@ -26,6 +34,8 @@ function DocumentDetailPage() {
         title: "", reference: "", object: "", user: "", receiver: "", id: "",
         expeditor: null
     })
+
+    const [shares, setShares] = useState([])
 
     const [loading, setLoading] = useState(true)
     const [loadingComment, setLoadingComment] = useState(true)
@@ -53,10 +63,17 @@ function DocumentDetailPage() {
             (err) => {
                 console.log(err)
             })
+        API.get("/documents/" + documentID + "/shares").then(response => {
+                setShares(response.data)
+                console.log(response.data)
 
+            },
+            (err) => {
+                console.log(err)
+            })
 
         API.get("/documents/" + documentID + "/comments").then(response => {
-                setComments(response.data)
+                setComments(response.data??[])
                 setLoadingComment(false)
             },
             (err) => {
@@ -86,8 +103,8 @@ function DocumentDetailPage() {
                                 href={baseURL + "/files/" + document.file_id}>Download File</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant={"contained"} color={"secondary"} download
-                                href={baseURL + "/files/" + document.file_id}>Delete File <CloseOutlined/></Button>
+                        <Button variant={"contained"} color={"secondary"}
+                                onClick={}>Forward Document </Button>
                     </Grid>
                 </Grid>
             </Paper>
@@ -99,7 +116,7 @@ function DocumentDetailPage() {
                         <Grid item xs={6}>
                             <Grid container spacing={3} justify={"flex-start"}>
                                 <Grid item xs={3}><b>From</b></Grid>
-                                <Grid item>{document.expeditor.name || document.expeditor.username}</Grid>
+                                <Grid item>{document.user.name || document.user.username}</Grid>
                             </Grid>
 
                             <Grid container spacing={3} justify={"flex-start"}>
@@ -113,17 +130,11 @@ function DocumentDetailPage() {
                             </Grid>
 
 
-                            <Grid container spacing={3} justify={"flex-start"}>
-                                <Grid item xs={3}><b>Uploaded on</b></Grid>
-                                <Grid item>{Moment(document.created_at).format("MMM DD, YYYY - HH:mm")}</Grid>
-                            </Grid>
+
                         </Grid>
 
                         <Grid item xs={6}>
-                            <Grid container spacing={3} justify={"flex-start"}>
-                                <Grid item xs={3}><b>To</b></Grid>
-                                <Grid item>{document.receiver.name || document.receiver.username}</Grid>
-                            </Grid>
+
 
                             <Grid container spacing={3} justify={"flex-start"}>
                                 <Grid item xs={3}><b>Reference</b></Grid>
@@ -135,15 +146,46 @@ function DocumentDetailPage() {
                                 <Grid item>{document.file.name}</Grid>
                             </Grid>
 
-                            <Grid container spacing={3} justify={"flex-start"}>
-                                <Grid item xs={3}><b>Status</b></Grid>
-                                <Grid item>{document.status.toUpperCase()}</Grid>
-                            </Grid>
+
                         </Grid>
                     </Grid>
 
                 </Container>
 
+            </Paper>
+
+            <Paper>
+                <Title>Documents Shares</Title>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Date</TableCell>
+                            <TableCell>From</TableCell>
+                            <TableCell>To</TableCell>
+                            <TableCell>Status</TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {shares.map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{Moment(row.created_at).format("MMM DD, YYYY - HH:mm")}</TableCell>
+                                <TableCell><Link to={"documents/"+row.id} style={{textDecoration: "none"}}>{row.title}</Link></TableCell>
+                                <TableCell>{row.object}</TableCell>
+                                <TableCell>{row.reference}</TableCell>
+
+
+                                <TableCell align="right">
+                                    <IconButton size={"small"} variant={"contained"} style={{marginLeft: 4}}
+                                                color={"primary"}><Reply/></IconButton>
+                                    <IconButton size={"small"} variant={"contained"} color={"secondary"}><Clear/></IconButton>
+                                    <IconButton size={"small"} download href={baseURL + "/files/" + row.file_id}
+                                                variant={"contained"} color={"primary"}><CloudDownload/></IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </Paper>
 
             <Paper>

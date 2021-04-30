@@ -24,14 +24,40 @@ func init() {
 	api.Get("/files/{uuid}", controllers.SingleFileController)
 
 	{
-		api.Get("/documents/users", middleware.AuthRequired(), controllers.OtherUsersController)
+		//Create a new document
 		api.Post("/document", middleware.AuthRequired(), controllers.NewDocumentController)
-		api.Post("/document/share", middleware.AuthRequired(), controllers.NewDocumentController)
+
+		//Get Current user created Documents
 		api.Get("/documents/", middleware.AuthRequired(), controllers.MyDocumentsController)
-		api.Put("/documents/{id}/complete", middleware.AuthRequired(), controllers.NewDocumentController)
-		api.Put("/documents/{id}/cancel", middleware.AuthRequired(), controllers.NewDocumentController)
-		api.Delete("/documents/{id}", middleware.AuthRequired(), controllers.NewDocumentController)
+
+		//Get Current user created Documents
 		api.Get("/documents/{id}", middleware.AuthRequired(), controllers.SingleDocumentController)
+
+		//Share a document by ID
+		api.Post("/documents/{id}/share", middleware.AuthRequired(), controllers.ShareDocument)
+
+		//Get a document shares
+		api.Get("/documents/{id}/shares", middleware.AuthRequired(), controllers.GetDocumentShares)
+
+		//Get all shared document I received or send
+		api.Get("/shares", middleware.AuthRequired(), controllers.GetShared)
+
+		//Get to open a share i received or sent
+		api.Get("/shares/{id}", middleware.AuthRequired(), controllers.OpenShare)
+
+		//To forward a share
+		api.Post("/shares/{id}/forward", middleware.AuthRequired(), controllers.ForwardShare)
+		//To complete a share
+		api.Patch("/shares/{id}/complete", middleware.AuthRequired(), controllers.CompleteShareStatus)
+
+		//To cancel a share
+		api.Patch("/shares/{id}/cancel", middleware.AuthRequired(), controllers.CancelShareStatus)
+
+		//To delete a share
+		api.Delete("/shares/{id}", middleware.AuthRequired(), controllers.DeleteShare)
+
+		// Comments section on a share document
+
 		api.Post("/documents/{id}/comment", middleware.AuthRequired(), controllers.NewComment)
 		api.Get("/documents/{id}/comments", middleware.AuthRequired(), controllers.GetComments)
 	}

@@ -73,8 +73,6 @@ export default function Orders() {
                         <TableCell>Title</TableCell>
                         <TableCell>Object</TableCell>
                         <TableCell>Reference</TableCell>
-                        <TableCell>Assigned to</TableCell>
-                        <TableCell>Status</TableCell>
                         <TableCell align="right">Actions</TableCell>
                     </TableRow>
                 </TableHead>
@@ -85,8 +83,8 @@ export default function Orders() {
                             <TableCell><Link to={"documents/"+row.id} style={{textDecoration: "none"}}>{row.title}</Link></TableCell>
                             <TableCell>{row.object}</TableCell>
                             <TableCell>{row.reference}</TableCell>
-                            <TableCell>{row.receiver.name}</TableCell>
-                            <TableCell>{row.status.toUpperCase()}</TableCell>
+
+
                             <TableCell align="right">
                                 <IconButton size={"small"} variant={"contained"} style={{marginLeft: 4}}
                                             color={"primary"}><Reply/></IconButton>

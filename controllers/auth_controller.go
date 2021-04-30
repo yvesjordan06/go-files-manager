@@ -15,7 +15,7 @@ func LoginController(ctx iris.Context) {
 		Password string `json:"password" binding:"required"`
 	}{}
 
-	ctx.ReadJSON(data)
+	_ = ctx.ReadJSON(data)
 
 	data.Username = strings.TrimSpace(data.Username)
 	data.Password = strings.TrimSpace(data.Password)
@@ -36,6 +36,52 @@ func LoginController(ctx iris.Context) {
 
 	if !utilities.CompareHashPassword(data.Password, user.Password) {
 		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "Incorrect Credential", "suggestion": "Please check your password"})
+		return
+	}
+
+	token := models.Token{
+		UserID: user.ID,
+		User:   *user,
+	}
+
+	_, err = token.Create()
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": "Can't create login Token", "suggestion": "Please contact the system admin"})
+		return
+	}
+
+	ctx.StopWithJSON(http.StatusCreated, token)
+}
+
+func ResetController(ctx iris.Context) {
+	data := &struct {
+		Username string `json:"username" binding:"required"`
+		Password string `json:"password" binding:"required"`
+	}{}
+
+	ctx.ReadJSON(data)
+
+	data.Username = strings.TrimSpace(data.Username)
+	data.Password = strings.TrimSpace(data.Password)
+
+	if data.Username == "" || data.Password == "" {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "Invalid entries", "suggestion": "Username or Password must not be empty"})
+		return
+	}
+
+	user := new(models.User)
+
+	r, err := user.Get(&models.User{Username: data.Username})
+	println(r)
+	if err != nil {
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "User not found", "suggestion": "Please check your email"})
+		return
+	}
+
+	_, err = user.SetPassword(data.Password)
+
+	if err != nil {
+		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": "Can't change password", "suggestion": "Please contact system administrator"})
 		return
 	}
 

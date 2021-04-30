@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 //UploadController is the controller for uploading files to the server
@@ -93,10 +92,15 @@ func SingleFileController(ctx iris.Context) {
 
 }
 
+/***
+NewDocumentController create a new document from an existing file
+*/
 func NewDocumentController(ctx iris.Context) {
 	document := new(models.Document)
+	share := new(models.Share)
 	documents := new(models.Documents)
 	err := ctx.ReadJSON(document)
+	err = ctx.ReadJSON(share)
 	user := ctx.Values().Get("user").(*models.User)
 
 	if err != nil {
@@ -106,15 +110,16 @@ func NewDocumentController(ctx iris.Context) {
 
 	//Checking if the file has already been shared or assigned
 
-	r, _ := documents.Where(&models.Document{UserID: user.ID, ReceiverID: document.ReceiverID, FileID: document.FileID})
+	// Checking if the document with the file already exist
+	r, _ := documents.Where(&models.Document{FileID: document.FileID})
 
 	if r.RowsAffected > 0 {
-		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "This file has already been shared", "suggestion": "Please verify the receiver or check the file"})
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "This file already has a document", "suggestion": "Please create another document"})
 		return
 	}
 
 	//Checking if the receiver is the sender
-	if user.ID == document.ReceiverID {
+	if user.ID == share.ReceiverID {
 		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": "You can not send a document to yourself", "suggestion": "You are trying to send this document to yourself, please choose another receiver"})
 		return
 	}
@@ -131,11 +136,7 @@ func NewDocumentController(ctx iris.Context) {
 		return
 	}
 
-	documents = new(models.Documents)
-
-	r, _ = documents.Where(&models.Document{FileID: document.FileID, AssignedID: &user.ID})
-
-	if r.RowsAffected == 0 && file.UserID != user.ID {
+	if file.UserID != user.ID {
 		ctx.StopWithJSON(http.StatusUnauthorized, iris.Map{"error": "No permission", "suggestion": "The file you are trying to share is not available for you."})
 		return
 	}
@@ -143,7 +144,7 @@ func NewDocumentController(ctx iris.Context) {
 	receiver := new(models.User)
 	_, err = receiver.Get(&models.User{
 		Base: base.Base{
-			ID: document.ReceiverID,
+			ID: share.ReceiverID,
 		},
 	})
 
@@ -154,44 +155,41 @@ func NewDocumentController(ctx iris.Context) {
 
 	document.UserID = user.ID
 	document.User = user
-	document.Status = models.DocumentStatusPending
+	share.Status = models.DocumentStatusPending
 	document.File = file
-	document.AssignedID = &receiver.ID
-	document.Assigned = receiver
-	document.Receiver = receiver
+	share.ReceiverID = receiver.ID
+	share.SenderID = user.ID
+	share.Sender = user
+	share.Receiver = receiver
 
 	_, err = document.Create()
+	share.DocumentID = document.ID
+	share.Document = document
+	share.Status = models.DocumentStatusPending
+	_, err = share.Create()
 	if err != nil {
 		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error(), "suggestion": "We have issues creating your document"})
 		return
 	}
 
-	ctx.StopWithJSON(http.StatusCreated, document)
+	ctx.StopWithJSON(http.StatusCreated, share)
 
 }
 
 func MyDocumentsController(ctx iris.Context) {
 
-	hideReceived, _ := ctx.URLParamBool("hide_received")
-	hideTransferred, _ := ctx.URLParamBool("hide_transferred")
 	documents := &models.Documents{}
 	var err error
 	user := ctx.Values().Get("user").(*models.User)
 
-	if !hideReceived && !hideTransferred {
-		_, err = documents.Where("receiver_id = ? OR user_id = ?", user.ID, user.ID)
-	}
-
-	/*if !hideTransferred {
-		_, err = documents.Where(&models.Document{UserID: user.ID})
-	}*/
+	_, err = documents.Where("user_id = ?", user.ID)
 
 	if err != nil {
 		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
 		return
 	}
 
-	documents2 := *documents
+	/*documents2 := *documents
 	r, err := documents2.Where("received_at IS ?", nil)
 	if err != nil {
 		ctx.StopWithJSON(http.StatusInternalServerError, iris.Map{"error": err.Error()})
@@ -201,39 +199,22 @@ func MyDocumentsController(ctx iris.Context) {
 
 	if r.RowsAffected > 0 {
 		r.Updates(&models.Document{Status: models.DocumentStatusRead, ReceivedAt: &t})
-	}
+	}*/
 
 	ctx.StopWithJSON(http.StatusOK, documents)
 }
 
-func DeleteDocument(ctx iris.Context) {
-	document := new(models.Document)
-	documentID, _ := ctx.Params().GetInt("id")
+func ReceivedDocuments(ctx iris.Context) {
 	user := ctx.Values().Get("user").(*models.User)
-
-	_, err := document.Get(&models.Document{
-		Base: base.Base{
-			ID: uint(documentID),
-		},
-	})
+	shares := new(models.Shares)
+	_, err := shares.Where(&models.Share{ReceiverID: user.ID})
 
 	if err != nil {
-		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "The document doesn't exist"})
+		ctx.StopWithJSON(http.StatusBadRequest, iris.Map{"error": err.Error(), "suggestion": "An unknown error occured"})
 		return
 	}
 
-	if document.UserID == user.ID {
-		document.UserDeleted = true
-	}
-
-	if document.ReceiverID == user.ID {
-		document.ReceiverDeleted = true
-	}
-
-	_, _ = document.Save()
-
-	ctx.StopWithStatus(http.StatusOK)
-
+	ctx.StopWithJSON(http.StatusOK, shares)
 }
 
 func OtherUsersController(ctx iris.Context) {

@@ -9,12 +9,15 @@ import (
 
 type Share struct {
 	base.Base
-	Document   *User `json:"document,omitempty"`
-	DocumentID *uint `json:"-"`
-	SenderID   uint  `json:"-"`
-	Sender     *User `json:"sender,omitempty"`
-	ReceiverID uint  `json:"receiver_id" validate:"required"`
-	Receiver   *User `json:"receiver,omitempty"`
+	Document        *Document `json:"document,omitempty"`
+	DocumentID      uint      `json:"-"`
+	SenderID        uint      `json:"-"`
+	Sender          *User     `json:"sender,omitempty"`
+	ReceiverID      uint      `json:"receiver_id" validate:"required"`
+	Receiver        *User     `json:"receiver,omitempty"`
+	Status          string    `json:"status,omitempty"` //Tells wheter the receiver has opened it or fowarded it or even completeted it
+	SenderDeleted   bool      `json:"sender_deleted" gorm:"default:false"`
+	ReceiverDeleted bool      `json:"receiver_deleted" gorm:"default:false"`
 }
 
 type Shares []Share
@@ -40,7 +43,7 @@ func (u *Shares) All() (*gorm.DB, error) {
 }
 
 func (u *Shares) Where(conditions ...interface{}) (*gorm.DB, error) {
-	query := application.DB.Preload("Sender").Preload("Receiver").Order("created_at desc").Find(u, conditions...)
+	query := application.DB.Preload("Sender").Preload("Receiver").Preload("Document").Order("created_at desc").Find(u, conditions...)
 	return ParseTransactionWithError(query)
 }
 
