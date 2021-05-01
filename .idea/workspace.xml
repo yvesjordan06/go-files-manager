@@ -19,22 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="983a35d1-fe98-4371-9a57-1f4b3d4d3743" name="Default Changelist" comment="Stable v1">
-      <change afterPath="$PROJECT_DIR$/controllers/share_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/file-manager/src/Components/ForwardComponent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/file-manager/src/Page/Auth/reset.js" afterDir="false" />
+    <list default="true" id="983a35d1-fe98-4371-9a57-1f4b3d4d3743" name="Default Changelist" comment="[Update]&#10;- Changed models&#10;- Change document flow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/auth_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/auth_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/upload_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/upload_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/cors_middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/cors_middleware.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/document_model.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/document_model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/shared_model.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/shared_model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file-manager/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/file-manager/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file-manager/src/Page/Auth/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/file-manager/src/Page/Auth/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/file-manager/src/Components/ForwardComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/file-manager/src/Components/ForwardComponent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/file-manager/src/Page/Document/DocumentDetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/file-manager/src/Page/Document/DocumentDetailPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file-manager/src/Page/Document/Orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/file-manager/src/Page/Document/Orders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/auth_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth_routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +136,8 @@
     <MESSAGE value="Added script" />
     <MESSAGE value="updated ignore" />
     <MESSAGE value="Stable v1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Stable v1" />
+    <MESSAGE value="[Update]&#10;- Changed models&#10;- Change document flow" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Update]&#10;- Changed models&#10;- Change document flow" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -162,59 +152,63 @@
       <screen x="0" y="27" width="1600" height="873" />
     </state>
     <state x="583" y="221" width="424" height="491" key="FileChooserDialogImpl/0.27.1600.873@0.27.1600.873" timestamp="1612736936161" />
-    <state width="1554" height="281" key="GridCell.Tab.0.bottom" timestamp="1619787012109">
+    <state width="1554" height="281" key="GridCell.Tab.0.bottom" timestamp="1619873805480">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state width="1554" height="256" key="GridCell.Tab.0.bottom/0.27.1600.873/1600.0.1600.900@0.27.1600.873" timestamp="1613667678012" />
-    <state width="1554" height="281" key="GridCell.Tab.0.bottom/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787012109" />
+    <state width="1554" height="281" key="GridCell.Tab.0.bottom/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805480" />
     <state width="758" height="217" key="GridCell.Tab.0.bottom/0.27.1600.873@0.27.1600.873" timestamp="1612737336094" />
-    <state width="1554" height="281" key="GridCell.Tab.0.center" timestamp="1619787012109">
+    <state width="1554" height="281" key="GridCell.Tab.0.center" timestamp="1619873805480">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state width="1554" height="256" key="GridCell.Tab.0.center/0.27.1600.873/1600.0.1600.900@0.27.1600.873" timestamp="1613667678012" />
-    <state width="1554" height="281" key="GridCell.Tab.0.center/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787012109" />
+    <state width="1554" height="281" key="GridCell.Tab.0.center/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805480" />
     <state width="758" height="217" key="GridCell.Tab.0.center/0.27.1600.873@0.27.1600.873" timestamp="1612737336093" />
-    <state width="1554" height="281" key="GridCell.Tab.0.left" timestamp="1619787012109">
+    <state width="1554" height="281" key="GridCell.Tab.0.left" timestamp="1619873805480">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state width="1554" height="256" key="GridCell.Tab.0.left/0.27.1600.873/1600.0.1600.900@0.27.1600.873" timestamp="1613667678012" />
-    <state width="1554" height="281" key="GridCell.Tab.0.left/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787012109" />
+    <state width="1554" height="281" key="GridCell.Tab.0.left/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805480" />
     <state width="758" height="217" key="GridCell.Tab.0.left/0.27.1600.873@0.27.1600.873" timestamp="1612737336093" />
-    <state width="1554" height="281" key="GridCell.Tab.0.right" timestamp="1619787012109">
+    <state width="1554" height="281" key="GridCell.Tab.0.right" timestamp="1619873805480">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state width="1554" height="256" key="GridCell.Tab.0.right/0.27.1600.873/1600.0.1600.900@0.27.1600.873" timestamp="1613667678012" />
-    <state width="1554" height="281" key="GridCell.Tab.0.right/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787012109" />
+    <state width="1554" height="281" key="GridCell.Tab.0.right/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805480" />
     <state width="758" height="217" key="GridCell.Tab.0.right/0.27.1600.873@0.27.1600.873" timestamp="1612737336094" />
-    <state width="1554" height="281" key="GridCell.Tab.1.bottom" timestamp="1619787118985">
+    <state width="1554" height="281" key="GridCell.Tab.1.bottom" timestamp="1619873805285">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
-    <state width="1554" height="281" key="GridCell.Tab.1.bottom/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787118985" />
-    <state width="1554" height="281" key="GridCell.Tab.1.center" timestamp="1619787118985">
+    <state width="1554" height="281" key="GridCell.Tab.1.bottom/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805285" />
+    <state width="1554" height="281" key="GridCell.Tab.1.center" timestamp="1619873805285">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
-    <state width="1554" height="281" key="GridCell.Tab.1.center/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787118985" />
-    <state width="1554" height="281" key="GridCell.Tab.1.left" timestamp="1619787118984">
+    <state width="1554" height="281" key="GridCell.Tab.1.center/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805285" />
+    <state width="1554" height="281" key="GridCell.Tab.1.left" timestamp="1619873805285">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
-    <state width="1554" height="281" key="GridCell.Tab.1.left/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787118984" />
-    <state width="1554" height="281" key="GridCell.Tab.1.right" timestamp="1619787118985">
+    <state width="1554" height="281" key="GridCell.Tab.1.left/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805285" />
+    <state width="1554" height="281" key="GridCell.Tab.1.right" timestamp="1619873805285">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
-    <state width="1554" height="281" key="GridCell.Tab.1.right/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619787118985" />
+    <state width="1554" height="281" key="GridCell.Tab.1.right/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619873805285" />
     <state width="263" height="500" key="HiddenNamespacesPopup" timestamp="1619778566697">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state width="263" height="500" key="HiddenNamespacesPopup/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619778566697" />
-    <state x="1995" y="171" width="800" height="557" key="Vcs.Push.Dialog.v2" timestamp="1614097421688">
+    <state x="1995" y="171" width="800" height="557" key="Vcs.Push.Dialog.v2" timestamp="1619801611443">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
     <state x="395" y="193" width="800" height="557" key="Vcs.Push.Dialog.v2/0.27.1600.873/1600.0.1600.900@0.27.1600.873" timestamp="1613667541006" />
-    <state x="1995" y="171" width="800" height="556" key="Vcs.Push.Dialog.v2/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1614097421688" />
-    <state x="2159" y="347" width="471" height="205" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1614001841110">
+    <state x="1995" y="171" width="800" height="556" key="Vcs.Push.Dialog.v2/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619801611443" />
+    <state x="2179" y="362" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1619801546835">
       <screen x="1600" y="0" width="1600" height="900" />
     </state>
-    <state x="2159" y="347" key="git4idea.remote.GitConfigureRemotesDialog/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1614001841110" />
+    <state x="2179" y="362" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619801546835" />
+    <state x="2159" y="347" width="534" height="198" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1619801788706">
+      <screen x="1600" y="0" width="1600" height="900" />
+    </state>
+    <state x="2159" y="347" width="534" height="198" key="git4idea.remote.GitConfigureRemotesDialog/0.27.1600.873/1600.0.1600.900@1600.0.1600.900" timestamp="1619801788706" />
     <state x="559" y="364" width="471" height="205" key="git4idea.remote.GitConfigureRemotesDialog/0.27.1600.873@0.27.1600.873" timestamp="1612742119571" />
     <state x="2232" y="208" width="325" height="482" key="refactoring.ChangeSignatureDialog" timestamp="1612967883427">
       <screen x="1600" y="0" width="1600" height="900" />
@@ -231,7 +225,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/public/file-manager/src/Page/Document/Orders.js</url>
           <line>65</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

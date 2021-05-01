@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import Paper, {Select, Typography} from "@material-ui/core";
+import {Select, Typography, Paper} from "@material-ui/core";
 import API from "../Infrastructure/network";
 import Swal from "sweetalert2";
 
-export default function ForwardComponent({documentID}){
+export default function ForwardComponent({documentID, onShared}){
 
     const [receiver, setReceiver] = useState(null)
     const [others, setOthers] = useState([])
@@ -22,7 +22,7 @@ export default function ForwardComponent({documentID}){
         Swal.showLoading()
         API.post("/documents/"+documentID+"/share", {to: receiver},).then(
             (response) => {
-                history.replace('/')
+                onShared()
                 Swal.close()
             }
         )

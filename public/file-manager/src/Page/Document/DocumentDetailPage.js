@@ -27,13 +27,54 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import {Link} from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
+import ForwardComponent from "../../Components/ForwardComponent";
+import Modal from "@material-ui/core/Modal";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+
+    };
+}
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
 
 function DocumentDetailPage() {
+    const classes = useStyles();
     let {id: documentID} = useParams()
     const [document, setDocument] = useState({
         title: "", reference: "", object: "", user: "", receiver: "", id: "",
         expeditor: null
     })
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const [shares, setShares] = useState([])
 
@@ -104,10 +145,20 @@ function DocumentDetailPage() {
                     </Grid>
                     <Grid item>
                         <Button variant={"contained"} color={"secondary"}
-                                onClick={}>Forward Document </Button>
+                                onClick={handleOpen}>Forward Document </Button>
                     </Grid>
                 </Grid>
             </Paper>
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+
+            >
+                <ForwardComponent className={classes.paper}   style={getModalStyle()}  documentID={document.id} onShared={handleClose} />
+            </Modal>
 
             <Paper>
                 <h1>File Information</h1>

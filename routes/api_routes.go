@@ -60,5 +60,6 @@ func init() {
 
 		api.Post("/documents/{id}/comment", middleware.AuthRequired(), controllers.NewComment)
 		api.Get("/documents/{id}/comments", middleware.AuthRequired(), controllers.GetComments)
+		api.Get("/documents/users", middleware.AuthRequired(), controllers.OtherUsersController)
 	}
 }
