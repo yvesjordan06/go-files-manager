@@ -4,6 +4,7 @@ import (
 	"files_manager/application"
 	"files_manager/models/base"
 	"files_manager/utilities"
+
 	"gorm.io/gorm"
 
 	"log"
@@ -14,6 +15,7 @@ type User struct {
 	base.Base
 	Username string `validate:"required" json:"username,omitempty" gorm:"unique"`
 	Name     string `json:"name,omitempty" validate:"required"`
+	Role     string `json:"role,omitempty" validate:"required" gorm:"default:user"`
 	Password string `json:"-"`
 }
 
@@ -55,6 +57,12 @@ func init() {
 	log.Println("Initializing model/user")
 	application.DB.AutoMigrate(&User{})
 
-	user := &User{Username: "hiro", Password: "hiro"}
+	user := &User{Username: "hiro", Password: "hiro", Role: "Administrator", Name: "Hiro Hamada"}
+	user.Create()
+
+	user = &User{Username: "user2", Password: "hiro", Role: "Administrator", Name: "Typw Pierre"}
+	user.Create()
+
+	user = &User{Username: "user3", Password: "hiro", Role: "Administrator", Name: "Lea Ashley"}
 	user.Create()
 }

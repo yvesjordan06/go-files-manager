@@ -4,9 +4,10 @@ import (
 	"files_manager/application"
 	"files_manager/models/base"
 	"files_manager/utilities"
+	"time"
+
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
-	"time"
 
 	"log"
 )
@@ -14,7 +15,7 @@ import (
 //Token for user login
 type Token struct {
 	base.Base
-	Token    string `json:"name"`
+	Token    string `json:"token"`
 	Disabled bool   `json:"-"`
 	UserID   uint   `json:"-"`
 	User     User   `json:"user"`
