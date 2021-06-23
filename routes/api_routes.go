@@ -38,7 +38,7 @@ func init() {
 		api.Get("/documents/received", middleware.AuthRequired(), controllers.MyReceivedSharesController)
 
 		//Get all fowarded shared document
-		api.Get("/documents/forwarded", middleware.AuthRequired(), controllers.MyForwardedSharesController)
+		api.Get("/documents/fowarded", middleware.AuthRequired(), controllers.MyForwardedSharesController)
 
 		api.Put("/documents/{id}/{status}", middleware.AuthRequired(), controllers.SetStatusToDocumentAs)
 

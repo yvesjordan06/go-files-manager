@@ -43,7 +43,7 @@ func (u *Shares) All() (*gorm.DB, error) {
 }
 
 func (u *Shares) Where(conditions ...interface{}) (*gorm.DB, error) {
-	query := application.DB.Preload("User").Preload("Document").Find(u, conditions...)
+	query := application.DB.Preload("User").Preload("Document").Preload("Receiver").Find(u, conditions...)
 	return ParseTransactionWithError(query)
 }
 
